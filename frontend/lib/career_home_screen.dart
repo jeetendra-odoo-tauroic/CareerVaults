@@ -456,9 +456,13 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color(0xfff8fafc),
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xffe2e8f0)),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xfff8fbff), Color(0xfff1f5ff)],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xffdce7fb)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,8 +479,12 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
             children: [
               for (final topic in topics)
                 ActionChip(
-                  avatar: Icon(topic.$2, size: 18),
-                  label: Text(topic.$1),
+                  avatar: Icon(topic.$2, size: 18, color: Color(0xff2563eb)),
+                  label: Text(topic.$1,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(color: Color(0xffdbeafe)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
                   onPressed: () => widget.onNavigate(7),
                 ),
             ],
@@ -534,19 +542,27 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
                   child: Card(
                     clipBehavior: Clip.antiAlias,
                     child: Padding(
-                      padding: const EdgeInsets.all(18),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.menu_book_outlined,
-                              color: Color(0xff4f46e5)),
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: const Color(0xffeff6ff),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: const Icon(Icons.menu_book_outlined,
+                                color: Color(0xff2563eb)),
+                          ),
                           const SizedBox(height: 12),
                           if (course.imageUri != null) ...[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
                                 course.imageUri.toString(),
-                                height: 130,
+                                height: 150,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
@@ -556,8 +572,8 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
                             const SizedBox(height: 12),
                           ],
                           Text(course.name,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w700)),
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w800)),
                           const SizedBox(height: 6),
                           Text(
                             course.description,
@@ -566,9 +582,24 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
                             style: const TextStyle(color: Color(0xff64748b)),
                           ),
                           const SizedBox(height: 12),
-                          Text(course.price > 0
-                              ? '₹${course.price.toStringAsFixed(2)}'
-                              : 'Free'),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: const Color(0xffeff6ff),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 7),
+                              child: Text(
+                                course.price > 0
+                                    ? '₹${course.price.toStringAsFixed(2)}'
+                                    : 'Free',
+                                style: const TextStyle(
+                                    color: Color(0xff1d4ed8),
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -691,10 +722,18 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
                                     const SizedBox.shrink(),
                               ),
                             ),
-                          Chip(label: Text(article.categoryLabel)),
+                          Chip(
+                            label: Text(article.categoryLabel),
+                            backgroundColor: const Color(0xffeff6ff),
+                            side: BorderSide.none,
+                            labelStyle: const TextStyle(
+                                color: Color(0xff1d4ed8),
+                                fontWeight: FontWeight.w700),
+                          ),
                           Text(article.title,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w700)),
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w800,
+                                  height: 1.3)),
                           const SizedBox(height: 6),
                           Text(
                             article.shortDescription,
