@@ -944,7 +944,7 @@ class JobDetailsScreen extends StatelessWidget {
                       Container(
                         width: 48, height: 48,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.14),
+                          color: const Color(0x24ffffff),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: const Icon(Icons.account_balance_outlined, color: Colors.white, size: 25),
@@ -1082,22 +1082,55 @@ class JobDetailsScreen extends StatelessWidget {
   }
 }
 
+class _DetailHeroChip extends StatelessWidget {
+  const _DetailHeroChip(this.label);
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+    decoration: BoxDecoration(
+      color: const Color(0x24ffffff),
+      borderRadius: BorderRadius.circular(30),
+      border: Border.all(color: const Color(0x45ffffff)),
+    ),
+    child: Text(label, style: const TextStyle(
+      color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700)),
+  );
+}
+
 class _DetailSection extends StatelessWidget {
-  const _DetailSection({required this.title, required this.children});
+  const _DetailSection({
+    required this.title,
+    required this.icon,
+    required this.children,
+  });
 
   final String title;
+  final IconData icon;
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) => Card(
-        margin: const EdgeInsets.only(bottom: 12),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 10),
+              Row(children: [
+                Container(
+                  width: 36, height: 36,
+                  decoration: BoxDecoration(
+                    color: const Color(0xffedf4ff),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: const Color(0xff1d4ed8), size: 19),
+                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text(title,
+                  style: Theme.of(context).textTheme.titleMedium)),
+              ]),
+              const SizedBox(height: 17),
               ...children,
             ],
           ),
