@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'interview_api.dart';
+import 'career_page_banner.dart';
 
 class InterviewScreen extends StatefulWidget {
   const InterviewScreen({super.key, required this.admin, this.api});
@@ -101,11 +102,13 @@ class _InterviewScreenState extends State<InterviewScreen> {
       child: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 8),
-          Text(widget.admin
-              ? 'Organise categories and editorial articles by experience level. Questions and answers are not part of this phase.'
-              : 'Browse interview preparation by technology and experience level. Questions and answers are not available in this phase.'),
+          CareerPageBanner(
+            title: title,
+            subtitle: widget.admin
+                ? 'Organise categories and editorial articles by experience level.'
+                : 'Prepare for your next technical interview with curated topics organised by technology and experience level.',
+            icon: Icons.record_voice_over_rounded,
+          ),
           if (widget.admin) ...[
             const SizedBox(height: 18),
             Wrap(
