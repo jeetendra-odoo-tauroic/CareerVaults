@@ -841,39 +841,37 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
   }
 
   Widget _footer(BuildContext context) => Container(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 26),
         decoration: BoxDecoration(
           color: const Color(0xff172554),
           borderRadius: BorderRadius.circular(22),
         ),
-        child: Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          runSpacing: 18,
-          children: [
-            const SizedBox(
-              width: 280,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('CareerVault',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 4),
-                  Text('Your Career. Your Opportunities.',
-                      style: TextStyle(color: Color(0xffcbd5e1))),
-                  SizedBox(height: 12),
-                  Text(
-                    'Explore jobs, learning resources and career guidance in one place.',
-                    style: TextStyle(color: Color(0xffcbd5e1)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxWidth < 680;
+            final brand = Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'CareerVault',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -.3,
                   ),
-                ],
-              ),
-            ),
-            Wrap(
-              spacing: 4,
-              runSpacing: 4,
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'Your career. Your opportunities.',
+                  style: TextStyle(color: Color(0xffcbd5e1), fontSize: 14),
+                ),
+              ],
+            );
+            final links = Wrap(
+              spacing: 8,
+              runSpacing: 6,
+              alignment: compact ? WrapAlignment.start : WrapAlignment.end,
               children: [
                 _footerLink('Home', 20),
                 _footerLink('Government Jobs', 5),
@@ -882,15 +880,33 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
                 _footerLink('Online Classes', 11),
                 _footerLink('Career Guidance', 15),
               ],
-            ),
-            const SizedBox(
-              width: 260,
-              child: Text(
-                'About CareerVault\nCreated by Jeetendra Pal. Bringing 12 years of experience across MNCs and leading investment banks, with previous experience at SBI, to help people discover opportunities and take their next career step.',
-                style: TextStyle(color: Color(0xffcbd5e1), height: 1.5),
-              ),
-            ),
-          ],
+            );
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (compact) ...[
+                  brand,
+                  const SizedBox(height: 18),
+                  links,
+                ] else
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(flex: 2, child: brand),
+                      const SizedBox(width: 24),
+                      Expanded(flex: 3, child: links),
+                    ],
+                  ),
+                const SizedBox(height: 20),
+                Divider(color: Colors.white.withValues(alpha: .18), height: 1),
+                const SizedBox(height: 14),
+                const Text(
+                  '© 2026 CareerVault. All rights reserved.',
+                  style: TextStyle(color: Color(0xffcbd5e1), fontSize: 12),
+                ),
+              ],
+            );
+          },
         ),
       );
 
