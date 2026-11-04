@@ -24,20 +24,20 @@ class CareerVaultApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xff4f46e5),
+            seedColor: const Color(0xff2563eb),
             primary: const Color(0xff172554),
-            secondary: const Color(0xff4f46e5),
+            secondary: const Color(0xff2563eb),
             surface: const Color(0xfff8fafc),
           ),
           scaffoldBackgroundColor: const Color(0xfff8fafc),
           useMaterial3: true,
           cardTheme: CardThemeData(
             color: Colors.white,
-            elevation: 1,
+            elevation: 2,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-              side: const BorderSide(color: Color(0xffe2e8f0)),
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Color(0xffe5eaf3)),
             ),
           ),
           appBarTheme: const AppBarTheme(
