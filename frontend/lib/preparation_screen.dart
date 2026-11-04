@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'api.dart';
+import 'career_page_banner.dart';
 
 class PreparationScreen extends StatefulWidget {
   const PreparationScreen({super.key, required this.admin, this.api});
@@ -91,11 +92,13 @@ class _PreparationScreenState extends State<PreparationScreen> {
       child: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 8),
-          Text(widget.admin
-              ? 'Create Java and Python learning material, review drafts, and manage published content.'
-              : 'Explore structured learning notes for Java, Python and their ecosystems.'),
+          CareerPageBanner(
+            title: title,
+            subtitle: widget.admin
+                ? 'Create Java and Python learning material, review drafts, and manage published content.'
+                : 'Build practical skills with structured notes for Java, Python and their ecosystems.',
+            icon: Icons.menu_book_rounded,
+          ),
           if (widget.admin) ...[
             const SizedBox(height: 18),
             Wrap(
