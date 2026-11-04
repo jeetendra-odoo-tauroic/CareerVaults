@@ -158,8 +158,8 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
           const SizedBox(height: 32),
           _sectionHeading(
             context,
-            'Explore CareerVault',
-            'Everything you need for your next career move.',
+            'Start with what you need',
+            'Choose a path and take your next step.',
           ),
           const SizedBox(height: 16),
           _exploreGrid(contentWidth),
@@ -199,140 +199,221 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
   }
 
   Widget _hero(double width) => Container(
-        padding: EdgeInsets.all(width < 600 ? 22 : 42),
+        padding: EdgeInsets.all(width < 600 ? 22 : 38),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xffeff6ff), Color(0xffeef2ff), Color(0xfff5f3ff)],
+            colors: [Color(0xff102b5c), Color(0xff1d4ed8), Color(0xff4338a8)],
           ),
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: const Color(0xffdbeafe)),
+          borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xff1e3a8a).withValues(alpha: .07),
-              blurRadius: 30,
-              offset: const Offset(0, 14),
+              color: const Color(0xff1e3a8a).withValues(alpha: .16),
+              blurRadius: 28,
+              offset: const Offset(0, 12),
             ),
           ],
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final content = Column(
+            final compact = constraints.maxWidth < 760;
+            final searchPanel = Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: compact
+                  ? Column(
+                      children: [
+                        TextField(
+                          controller: _search,
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (_) => _searchJobs(),
+                          decoration: const InputDecoration(
+                            hintText: 'Search jobs by title or keyword',
+                            prefixIcon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            filled: false,
+                          ),
+                        ),
+                        const Divider(height: 1),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: DropdownButtonFormField<String>(
+                                initialValue: _searchCategory,
+                                isExpanded: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Job type',
+                                  border: InputBorder.none,
+                                  filled: false,
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                                ),
+                                items: const [
+                                  DropdownMenuItem(value: 'Government jobs', child: Text('Government jobs')),
+                                  DropdownMenuItem(value: 'IT jobs', child: Text('Private IT jobs')),
+                                ],
+                                onChanged: (value) => setState(
+                                  () => _searchCategory = value ?? _searchCategory,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            FilledButton(
+                              onPressed: _searchJobs,
+                              child: const Text('Search'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12),
+                          child: Icon(Icons.search, color: Color(0xff64748b)),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: TextField(
+                            controller: _search,
+                            textInputAction: TextInputAction.search,
+                            onSubmitted: (_) => _searchJobs(),
+                            decoration: const InputDecoration(
+                              hintText: 'Job title, organisation or keyword',
+                              border: InputBorder.none,
+                              filled: false,
+                            ),
+                          ),
+                        ),
+                        Container(width: 1, height: 38, color: const Color(0xffe2e8f0)),
+                        Expanded(
+                          flex: 3,
+                          child: DropdownButtonFormField<String>(
+                            initialValue: _searchCategory,
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              labelText: 'Search in',
+                              border: InputBorder.none,
+                              filled: false,
+                              contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                            ),
+                            items: const [
+                              DropdownMenuItem(value: 'Government jobs', child: Text('Government jobs')),
+                              DropdownMenuItem(value: 'IT jobs', child: Text('Private IT jobs')),
+                            ],
+                            onChanged: (value) => setState(
+                              () => _searchCategory = value ?? _searchCategory,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        FilledButton.icon(
+                          onPressed: _searchJobs,
+                          icon: const Icon(Icons.arrow_forward, size: 18),
+                          label: const Text('Find jobs'),
+                        ),
+                      ],
+                    ),
+            );
+            final intro = Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DecoratedBox(
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withValues(alpha: .13),
                     borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.white.withValues(alpha: .22)),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    child: Text(
-                      'YOUR CAREER. YOUR OPPORTUNITIES.',
-                      style: TextStyle(
-                        color: Color(0xff4338ca),
-                        letterSpacing: 1.1,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 11,
-                      ),
+                  child: const Text(
+                    'CAREERVAULT  •  JOBS & LEARNING',
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.1,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 11,
                     ),
                   ),
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  'Build Your Career.\nDiscover New Opportunities.',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: const Color(0xff172554),
+                  'Your next career move starts here.',
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        color: Colors.white,
                         fontWeight: FontWeight.w800,
-                        height: 1.12,
+                        height: 1.08,
                       ),
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Find government jobs, explore IT opportunities, improve your technical skills and prepare for your next career milestone with CareerVault.',
-                  style: TextStyle(color: Color(0xff475569), height: 1.55),
+                Text(
+                  'Discover government opportunities, grow your IT skills and prepare with practical resources—all in one place.',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: .86),
+                    height: 1.55,
+                    fontSize: 15,
+                  ),
                 ),
-                const SizedBox(height: 22),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    SizedBox(
-                      width: constraints.maxWidth < 620
-                          ? constraints.maxWidth
-                          : 230,
-                      child: TextField(
-                        controller: _search,
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (_) => _searchJobs(),
-                        decoration: const InputDecoration(
-                          hintText: 'Job title or keyword',
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: constraints.maxWidth < 620
-                          ? constraints.maxWidth
-                          : 205,
-                      child: DropdownButtonFormField<String>(
-                        initialValue: _searchCategory,
-                        decoration:
-                            const InputDecoration(labelText: 'Search in'),
-                        items: const [
-                          DropdownMenuItem(
-                              value: 'Government jobs',
-                              child: Text('Government jobs')),
-                          DropdownMenuItem(
-                              value: 'IT jobs', child: Text('Private IT jobs')),
-                        ],
-                        onChanged: (value) => setState(
-                            () => _searchCategory = value ?? _searchCategory),
-                      ),
-                    ),
-                    FilledButton.icon(
-                      onPressed: _searchJobs,
-                      icon: const Icon(Icons.arrow_forward),
-                      label: const Text('Search jobs'),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 24),
+                searchPanel,
                 const SizedBox(height: 16),
                 Wrap(
                   spacing: 10,
                   runSpacing: 8,
                   children: [
-                    OutlinedButton.icon(
+                    TextButton.icon(
+                      style: TextButton.styleFrom(foregroundColor: Colors.white),
                       onPressed: () => widget.onNavigate(5),
-                      icon: const Icon(Icons.account_balance_outlined),
-                      label: const Text('Browse Government Jobs'),
+                      icon: const Icon(Icons.account_balance_outlined, size: 18),
+                      label: const Text('Government jobs'),
                     ),
-                    OutlinedButton.icon(
+                    TextButton.icon(
+                      style: TextButton.styleFrom(foregroundColor: Colors.white),
                       onPressed: () => widget.onNavigate(6),
-                      icon: const Icon(Icons.code),
-                      label: const Text('Explore IT Jobs'),
+                      icon: const Icon(Icons.code, size: 18),
+                      label: const Text('IT jobs'),
                     ),
                   ],
                 ),
               ],
             );
-            if (constraints.maxWidth < 850) return content;
+            if (compact) return intro;
             return Row(
               children: [
-                Expanded(flex: 7, child: content),
-                const SizedBox(width: 28),
+                Expanded(flex: 7, child: intro),
+                const SizedBox(width: 34),
                 Expanded(
                   flex: 3,
                   child: Container(
-                    height: 230,
+                    padding: const EdgeInsets.all(22),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: .72),
-                      borderRadius: BorderRadius.circular(24),
+                      color: Colors.white.withValues(alpha: .10),
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(color: Colors.white.withValues(alpha: .18)),
                     ),
-                    child: const Center(
-                      child: Icon(Icons.work_history_outlined,
-                          size: 96, color: Color(0xff4f46e5)),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.explore_outlined, color: Colors.white, size: 38),
+                        SizedBox(height: 18),
+                        Text(
+                          'One place.\nMore possibilities.',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w800,
+                            height: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        _HeroBenefit(icon: Icons.work_outline, text: 'Find your next opportunity'),
+                        SizedBox(height: 12),
+                        _HeroBenefit(icon: Icons.school_outlined, text: 'Learn at your own pace'),
+                        SizedBox(height: 12),
+                        _HeroBenefit(icon: Icons.trending_up, text: 'Prepare for what’s next'),
+                      ],
                     ),
                   ),
                 ),
@@ -827,6 +908,28 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
           border: Border.all(color: const Color(0xffe2e8f0)),
         ),
         child: Text(message, style: const TextStyle(color: Color(0xff64748b))),
+      );
+}
+
+
+class _HeroBenefit extends StatelessWidget {
+  const _HeroBenefit({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Icon(icon, color: const Color(0xffbfdbfe), size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.3),
+            ),
+          ),
+        ],
       );
 }
 
