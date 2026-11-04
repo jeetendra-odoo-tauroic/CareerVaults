@@ -907,91 +907,179 @@ class JobDetailsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Job details')),
-        body: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Text(job.title, style: Theme.of(context).textTheme.headlineSmall),
-            const SizedBox(height: 5),
-            Text(job.organisation,
-                style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                Chip(label: Text(job.category)),
-                Chip(label: Text(job.experienceLevel)),
-                Chip(label: Text(job.location ?? 'Location not specified')),
-              ],
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final compact = width < 650;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Opportunity details'),
+        centerTitle: false,
+      ),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? 16 : 32,
+              vertical: compact ? 18 : 30,
             ),
-            const SizedBox(height: 12),
-            _DetailSection(
-              title: 'Organisation details',
-              children: [
-                _DetailRow('Organisation', job.organisation),
-                if (job.advertisementNumber?.isNotEmpty == true)
-                  _DetailRow('Advertisement number', job.advertisementNumber!),
-                _DetailRow('Location', job.location ?? 'Not specified'),
-              ],
-            ),
-            _DetailSection(
-              title: 'Job description',
-              children: [
-                Text(job.description?.trim().isNotEmpty == true
+            children: [
+              Container(
+                padding: EdgeInsets.all(compact ? 22 : 30),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xff102b5c), Color(0xff1d4ed8), Color(0xff3478e8)],
+                  ),
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0x1c1d4ed8), blurRadius: 24, offset: Offset(0, 10)),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      Container(
+                        width: 48, height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.14),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: const Icon(Icons.account_balance_outlined, color: Colors.white, size: 25),
+                      ),
+                      const SizedBox(width: 13),
+                      Expanded(child: Text(job.organisation,
+                        style: const TextStyle(color: Color(0xffdbeafe), fontWeight: FontWeight.w700, fontSize: 14))),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: const Color(0x26ffffff),
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: const Color(0x40ffffff)),
+                        ),
+                        child: const Text('JOB OPENING',
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 9, letterSpacing: 1)),
+                      ),
+                    ]),
+                    const SizedBox(height: 20),
+                    Text(job.title,
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Colors.white, fontSize: compact ? 25 : 32, height: 1.2)),
+                    const SizedBox(height: 16),
+                    Wrap(spacing: 8, runSpacing: 8, children: [
+                      _DetailHeroChip(job.category),
+                      _DetailHeroChip(job.experienceLevel),
+                      _DetailHeroChip(job.location ?? 'Location not specified'),
+                    ]),
+                    const SizedBox(height: 22),
+                    if (job.applicationUrl?.isNotEmpty == true)
+                      FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xff1d4ed8),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        ),
+                        onPressed: () => _open(context, Uri.parse(job.applicationUrl!)),
+                        icon: const Icon(Icons.open_in_new, size: 18),
+                        label: const Text('Apply on official website'),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+              LayoutBuilder(builder: (context, constraints) {
+                final wide = constraints.maxWidth >= 760;
+                final itemWidth = wide ? (constraints.maxWidth - 16) / 2 : constraints.maxWidth;
+                return Wrap(
+                  spacing: 16, runSpacing: 16,
+                  children: [
+                    SizedBox(width: itemWidth, child: _DetailSection(
+                      title: 'Organisation details',
+                      icon: Icons.account_balance_outlined,
+                      children: [
+                        _DetailRow('Organisation', job.organisation),
+                        if (job.advertisementNumber?.isNotEmpty == true)
+                          _DetailRow('Advertisement number', job.advertisementNumber!),
+                        _DetailRow('Location', job.location ?? 'Not specified'),
+                      ],
+                    )),
+                    SizedBox(width: itemWidth, child: _DetailSection(
+                      title: 'Eligibility and requirements',
+                      icon: Icons.fact_check_outlined,
+                      children: [
+                        _DetailRow('Qualification', job.qualification ?? 'Not specified'),
+                        _DetailRow('Experience', job.experienceLevel),
+                        _DetailRow('Required skills', 'See job description or official notification.'),
+                      ],
+                    )),
+                    SizedBox(width: itemWidth, child: _DetailSection(
+                      title: 'Compensation and important dates',
+                      icon: Icons.event_available_outlined,
+                      children: [
+                        _DetailRow('Salary', job.salary ?? 'Not specified'),
+                        _DetailRow('Application starts', job.applicationStartDate),
+                        _DetailRow('Application closes', job.closingDate),
+                        _DetailRow('Posted', postedDateLabel(job.createdAt)),
+                      ],
+                    )),
+                    SizedBox(width: itemWidth, child: _DetailSection(
+                      title: 'Selection process',
+                      icon: Icons.how_to_reg_outlined,
+                      children: const [
+                        Text('Please refer to the official recruitment notification for the selection stages, assessment pattern and interview details.'),
+                      ],
+                    )),
+                  ],
+                );
+              }),
+              const SizedBox(height: 16),
+              _DetailSection(
+                title: 'Job description',
+                icon: Icons.description_outlined,
+                children: [
+                  Text(job.description?.trim().isNotEmpty == true
                     ? job.description!
-                    : 'No detailed description was provided by the organisation.'),
-              ],
-            ),
-            _DetailSection(
-              title: 'Eligibility and requirements',
-              children: [
-                _DetailRow(
-                    'Qualification', job.qualification ?? 'Not specified'),
-                _DetailRow('Experience', job.experienceLevel),
-                _DetailRow('Required skills',
-                    'See job description or official notification.'),
-              ],
-            ),
-            _DetailSection(
-              title: 'Compensation and important dates',
-              children: [
-                _DetailRow('Salary', job.salary ?? 'Not specified'),
-                _DetailRow('Application starts', job.applicationStartDate),
-                _DetailRow('Application closes', job.closingDate),
-                _DetailRow('Posted', postedDateLabel(job.createdAt)),
-              ],
-            ),
-            _DetailSection(
-              title: 'Selection process',
-              children: const [
-                Text(
-                    'See the official notification for selection process details.'),
-              ],
-            ),
-            if (job.notificationFileName != null)
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.picture_as_pdf_outlined),
-                  title: const Text('Official notification PDF'),
-                  trailing: const Icon(Icons.open_in_new),
-                  onTap: () => _open(context, api.notificationUri(job.id)),
-                ),
+                    : 'The organisation has not provided a detailed description. Please review the official notification for complete role information.',
+                    style: const TextStyle(height: 1.7)),
+                ],
               ),
-            if (job.applicationUrl?.isNotEmpty == true)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: FilledButton.icon(
-                  onPressed: () =>
-                      _open(context, Uri.parse(job.applicationUrl!)),
+              if (job.notificationFileName != null) ...[
+                const SizedBox(height: 14),
+                Card(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    leading: Container(
+                      width: 44, height: 44,
+                      decoration: BoxDecoration(color: const Color(0xffffeeee), borderRadius: BorderRadius.circular(12)),
+                      child: const Icon(Icons.picture_as_pdf_outlined, color: Color(0xffc62828)),
+                    ),
+                    title: const Text('Official recruitment notification', style: TextStyle(fontWeight: FontWeight.w700)),
+                    subtitle: Text(job.notificationFileName!),
+                    trailing: const Icon(Icons.download_outlined),
+                    onTap: () => _open(context, api.notificationUri(job.id)),
+                  ),
+                ),
+              ],
+              if (job.applicationUrl?.isNotEmpty == true) ...[
+                const SizedBox(height: 14),
+                FilledButton.icon(
+                  onPressed: () => _open(context, Uri.parse(job.applicationUrl!)),
                   icon: const Icon(Icons.open_in_new),
-                  label: const Text('Apply on the official website'),
+                  label: const Text('Proceed to application'),
                 ),
-              ),
-          ],
+              ],
+              const SizedBox(height: 18),
+              const Text('CareerVaults provides opportunity information for discovery. Always verify eligibility, dates and instructions in the official notification.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Color(0xff64748b), fontSize: 12, height: 1.5)),
+            ],
+          ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _DetailSection extends StatelessWidget {
