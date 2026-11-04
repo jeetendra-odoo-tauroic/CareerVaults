@@ -810,39 +810,50 @@ class _ExploreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
+        clipBehavior: Clip.antiAlias,
         child: InkWell(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.all(20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: item.color,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(item.icon, color: const Color(0xff3730a3)),
+                  child: Icon(item.icon,
+                      size: 25, color: const Color(0xff3730a3)),
                 ),
-                const SizedBox(width: 14),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(item.title,
-                          style: const TextStyle(fontWeight: FontWeight.w700)),
-                      const SizedBox(height: 5),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w800)),
+                      const SizedBox(height: 6),
                       Text(item.description,
                           style: const TextStyle(
-                              color: Color(0xff64748b), height: 1.4)),
-                      const SizedBox(height: 8),
-                      const Text('Explore →',
-                          style: TextStyle(
-                              color: Color(0xff4338ca),
-                              fontWeight: FontWeight.w600)),
+                              color: Color(0xff64748b), height: 1.45)),
+                      const SizedBox(height: 12),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Explore',
+                              style: TextStyle(
+                                  color: Color(0xff2563eb),
+                                  fontWeight: FontWeight.w700)),
+                          SizedBox(width: 6),
+                          Icon(Icons.arrow_forward_rounded,
+                              size: 16, color: Color(0xff2563eb)),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -866,24 +877,33 @@ class _JobPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
+        clipBehavior: Clip.antiAlias,
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: const Color(0xffeef2ff),
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xffdbeafe), Color(0xffeef2ff)],
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     child: Icon(
                       government
                           ? Icons.account_balance_outlined
                           : Icons.business_center_outlined,
-                      color: const Color(0xff4338ca),
+                      color: const Color(0xff1d4ed8),
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 13),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -891,20 +911,27 @@ class _JobPreviewCard extends StatelessWidget {
                         Text(job.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.w700)),
-                        const SizedBox(height: 4),
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w800,
+                                height: 1.3)),
+                        const SizedBox(height: 5),
                         Text(job.organisation,
-                            style: const TextStyle(color: Color(0xff64748b))),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Color(0xff64748b), fontSize: 13)),
                       ],
                     ),
                   ),
                 ],
               ),
-              const Divider(height: 24),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Divider(height: 1, color: Color(0xffedf0f5)),
+              ),
               Wrap(
-                spacing: 14,
-                runSpacing: 8,
+                spacing: 12,
+                runSpacing: 10,
                 children: [
                   if (job.location?.isNotEmpty ?? false)
                     _JobMeta(Icons.location_on_outlined, job.location!),
@@ -917,12 +944,13 @@ class _JobPreviewCard extends StatelessWidget {
                   _JobMeta(Icons.event_outlined, 'Closes ${job.closingDate}'),
                 ],
               ),
+              const SizedBox(height: 12),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton.icon(
+                child: FilledButton.tonalIcon(
                   onPressed: onDetails,
-                  icon: const Icon(Icons.arrow_forward, size: 16),
-                  label: const Text('View Details'),
+                  icon: const Icon(Icons.arrow_forward_rounded, size: 16),
+                  label: const Text('View details'),
                 ),
               ),
             ],
