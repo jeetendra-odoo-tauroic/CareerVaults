@@ -766,7 +766,7 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
             const SizedBox(
               width: 260,
               child: Text(
-                'About CareerVault\nA place to discover opportunities and take your next career step.',
+                'About CareerVault\nCreated by Jeetendra Pal. Bringing 12 years of experience across MNCs and leading investment banks, with previous experience at SBI, to help people discover opportunities and take their next career step.',
                 style: TextStyle(color: Color(0xffcbd5e1), height: 1.5),
               ),
             ),
