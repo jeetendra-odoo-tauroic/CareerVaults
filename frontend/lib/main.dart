@@ -43,11 +43,11 @@ class CareerVaultApp extends StatelessWidget {
               letterSpacing: -0.7, height: 1.2,
             ),
             headlineSmall: TextStyle(
-              color: Color(0xff172554), fontWeight: FontWeight.w750,
+              color: Color(0xff172554), fontWeight: FontWeight.w700,
               letterSpacing: -0.35,
             ),
             titleLarge: TextStyle(
-              color: Color(0xff172554), fontWeight: FontWeight.w750,
+              color: Color(0xff172554), fontWeight: FontWeight.w700,
               letterSpacing: -0.2,
             ),
             titleMedium: TextStyle(
@@ -130,7 +130,7 @@ class CareerVaultApp extends StatelessWidget {
               foregroundColor: const Color(0xff1d4ed8),
               padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 13),
               side: const BorderSide(color: Color(0xffcbd8ec)),
-              textStyle: const TextStyle(fontWeight: FontWeight.w650),
+              textStyle: const TextStyle(fontWeight: FontWeight.w600),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -139,7 +139,7 @@ class CareerVaultApp extends StatelessWidget {
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xff1d4ed8),
-              textStyle: const TextStyle(fontWeight: FontWeight.w650),
+              textStyle: const TextStyle(fontWeight: FontWeight.w600),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
