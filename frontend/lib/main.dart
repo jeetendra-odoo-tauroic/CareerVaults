@@ -25,19 +25,47 @@ class CareerVaultApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xff2563eb),
-            primary: const Color(0xff172554),
+            primary: const Color(0xff1d4ed8),
             secondary: const Color(0xff2563eb),
-            surface: const Color(0xfff8fafc),
+            surface: const Color(0xffffffff),
+            error: const Color(0xffb91c1c),
           ),
-          scaffoldBackgroundColor: const Color(0xfff8fafc),
+          scaffoldBackgroundColor: const Color(0xfff5f7fb),
           useMaterial3: true,
+          visualDensity: VisualDensity.standard,
+          textTheme: const TextTheme(
+            headlineLarge: TextStyle(
+              color: Color(0xff0f172a), fontWeight: FontWeight.w800,
+              letterSpacing: -1.1, height: 1.15,
+            ),
+            headlineMedium: TextStyle(
+              color: Color(0xff0f172a), fontWeight: FontWeight.w800,
+              letterSpacing: -0.7, height: 1.2,
+            ),
+            headlineSmall: TextStyle(
+              color: Color(0xff172554), fontWeight: FontWeight.w750,
+              letterSpacing: -0.35,
+            ),
+            titleLarge: TextStyle(
+              color: Color(0xff172554), fontWeight: FontWeight.w750,
+              letterSpacing: -0.2,
+            ),
+            titleMedium: TextStyle(
+              color: Color(0xff1e293b), fontWeight: FontWeight.w700,
+            ),
+            bodyLarge: TextStyle(color: Color(0xff334155), height: 1.55),
+            bodyMedium: TextStyle(color: Color(0xff475569), height: 1.5),
+            bodySmall: TextStyle(color: Color(0xff64748b), height: 1.45),
+          ),
           cardTheme: CardThemeData(
             color: Colors.white,
-            elevation: 2,
+            elevation: 1,
+            shadowColor: const Color(0x120f172a),
             margin: EdgeInsets.zero,
+            clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: const BorderSide(color: Color(0xffe5eaf3)),
+              borderRadius: BorderRadius.circular(18),
+              side: const BorderSide(color: Color(0xffe6ebf3)),
             ),
           ),
           appBarTheme: const AppBarTheme(
@@ -45,11 +73,110 @@ class CareerVaultApp extends StatelessWidget {
             foregroundColor: Color(0xff172554),
             surfaceTintColor: Colors.transparent,
             elevation: 0,
+            scrolledUnderElevation: 1,
+            shadowColor: Color(0x120f172a),
+            titleTextStyle: TextStyle(
+              color: Color(0xff172554), fontSize: 19,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-          inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(),
+          inputDecorationTheme: InputDecorationTheme(
             filled: true,
             fillColor: Colors.white,
+            isDense: true,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 15, vertical: 15,
+            ),
+            hintStyle: const TextStyle(color: Color(0xff94a3b8)),
+            labelStyle: const TextStyle(
+              color: Color(0xff475569), fontWeight: FontWeight.w600,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xffdbe3ef)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xffdbe3ef)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xff2563eb), width: 1.6),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xffb91c1c)),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xffb91c1c), width: 1.6),
+            ),
+          ),
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xff2563eb),
+              foregroundColor: Colors.white,
+              disabledBackgroundColor: const Color(0xffe2e8f0),
+              disabledForegroundColor: const Color(0xff94a3b8),
+              padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 14),
+              textStyle: const TextStyle(fontWeight: FontWeight.w700),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xff1d4ed8),
+              padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 13),
+              side: const BorderSide(color: Color(0xffcbd8ec)),
+              textStyle: const TextStyle(fontWeight: FontWeight.w650),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xff1d4ed8),
+              textStyle: const TextStyle(fontWeight: FontWeight.w650),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+          chipTheme: ChipThemeData(
+            backgroundColor: const Color(0xffeff6ff),
+            selectedColor: const Color(0xffdbeafe),
+            disabledColor: const Color(0xfff1f5f9),
+            labelStyle: const TextStyle(
+              color: Color(0xff1e40af), fontWeight: FontWeight.w600,
+            ),
+            side: const BorderSide(color: Color(0xffdbeafe)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          ),
+          dialogTheme: DialogThemeData(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            titleTextStyle: const TextStyle(
+              color: Color(0xff172554), fontSize: 20,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          snackBarTheme: SnackBarThemeData(
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          dividerTheme: const DividerThemeData(
+            color: Color(0xffe8edf5), thickness: 1, space: 1,
           ),
         ),
         home: const CareerVaultHome(),
@@ -197,7 +324,7 @@ class _CareerVaultHomeState extends State<CareerVaultHome> {
           child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.work_history_outlined, color: Color(0xff4f46e5)),
+              Icon(Icons.work_history_outlined, color: Color(0xff2563eb)),
               SizedBox(width: 9),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -314,13 +441,13 @@ class _CareerVaultHomeState extends State<CareerVaultHome> {
                 icon: Icon(destination.$2,
                     size: 18,
                     color: _page == destination.$3
-                        ? const Color(0xff4338ca)
+                        ? const Color(0xff1d4ed8)
                         : const Color(0xff64748b)),
                 label: Text(
                   destination.$1,
                   style: TextStyle(
                     color: _page == destination.$3
-                        ? const Color(0xff3730a3)
+                        ? const Color(0xff1e40af)
                         : const Color(0xff334155),
                     fontWeight: _page == destination.$3
                         ? FontWeight.w700
