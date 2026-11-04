@@ -212,7 +212,10 @@ class _MockTestsScreenState extends State<MockTestsScreen> {
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.sizeOf(context).width < 600 ? 16 : 28,
+          vertical: 24,
+        ),
         children: [
           Row(
             children: [
