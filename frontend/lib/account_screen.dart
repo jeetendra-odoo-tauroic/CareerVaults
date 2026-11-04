@@ -225,7 +225,10 @@ class _AccountScreenState extends State<AccountScreen> {
     }
     final user = _user!;
     return ListView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.sizeOf(context).width < 600 ? 16 : 28,
+        vertical: 24,
+      ),
       children: [
         Text('My Account', style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 16),
@@ -274,8 +277,17 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(width: 170, child: Text(label)),
-            Expanded(child: SelectableText(value)),
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width < 600 ? 118 : 170,
+              child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: SelectableText(
+                value,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
           ],
         ),
       );
