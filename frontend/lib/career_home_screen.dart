@@ -199,11 +199,22 @@ class _CareerHomeScreenState extends State<CareerHomeScreen> {
   }
 
   Widget _hero(double width) => Container(
-        padding: EdgeInsets.all(width < 600 ? 24 : 38),
+        padding: EdgeInsets.all(width < 600 ? 22 : 42),
         decoration: BoxDecoration(
-          color: const Color(0xffeef2ff),
-          borderRadius: BorderRadius.circular(26),
-          border: Border.all(color: const Color(0xffdbe4ff)),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xffeff6ff), Color(0xffeef2ff), Color(0xfff5f3ff)],
+          ),
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: const Color(0xffdbeafe)),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xff1e3a8a).withValues(alpha: .07),
+              blurRadius: 30,
+              offset: const Offset(0, 14),
+            ),
+          ],
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
