@@ -379,22 +379,62 @@ class _PublicJobsScreenState extends State<PublicJobsScreen> {
           vertical: 24,
         ),
         children: [
-          Text('CAREERVAULT  /  OPPORTUNITIES',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    letterSpacing: 1.1,
-                    fontWeight: FontWeight.w700,
-                  )),
-          const SizedBox(height: 8),
-          Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 6),
-          Text(
-            government
-                ? 'Latest notifications from banking, UPSC and SSC, railways, PSUs and central and state government employers.'
-                : 'Explore the latest software engineering, backend, cloud and DevOps opportunities.',
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(width < 600 ? 22 : 30),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xff102b5c), Color(0xff1d4ed8), Color(0xff3478e8)],
+              ),
+              borderRadius: BorderRadius.circular(22),
+              boxShadow: const [
+                BoxShadow(color: Color(0x1c1d4ed8), blurRadius: 24, offset: Offset(0, 10)),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('CAREERVAULT  /  OPPORTUNITIES',
+                  style: TextStyle(color: Color(0xffbfdbfe), letterSpacing: 1.5,
+                    fontWeight: FontWeight.w800, fontSize: 11)),
+                const SizedBox(height: 12),
+                Text(title, style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.white, fontSize: width < 600 ? 27 : 34)),
+                const SizedBox(height: 8),
+                Text(
+                  government
+                    ? 'Explore public-sector careers, recruitment notifications and important application dates.'
+                    : 'Find your next opportunity across software engineering, Java, cloud, data and DevOps.',
+                  style: const TextStyle(color: Color(0xffe0ecff), height: 1.5, fontSize: 14),
+                ),
+                const SizedBox(height: 18),
+                Row(children: [
+                  const Icon(Icons.verified_outlined, color: Color(0xffbfdbfe), size: 18),
+                  const SizedBox(width: 8),
+                  Text('Curated opportunities • Updated listings',
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12)),
+                ]),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
-          Row(
+          const SizedBox(height: 22),
+          Card(
+            elevation: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    const Icon(Icons.manage_search, color: Color(0xff1d4ed8)),
+                    const SizedBox(width: 8),
+                    Text('Find the right opportunity',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  ]),
+                  const SizedBox(height: 12),
+                  Row(
             children: [
               Expanded(
                 child: TextField(
@@ -427,9 +467,13 @@ class _PublicJobsScreenState extends State<PublicJobsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          _filters(government),
-          const SizedBox(height: 18),
+                  const SizedBox(height: 12),
+                  _filters(government),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
           if (_loading)
             const Padding(
               padding: EdgeInsets.all(40),
@@ -440,11 +484,20 @@ class _PublicJobsScreenState extends State<PublicJobsScreen> {
           else if (filteredCount == 0)
             const _EmptyJobs()
           else ...[
-            Text(
-              '$filteredCount ${filteredCount == 1 ? 'job' : 'jobs'} found',
-              style: Theme.of(context).textTheme.labelLarge,
+            Row(
+              children: [
+                Expanded(child: Text('Available opportunities',
+                  style: Theme.of(context).textTheme.titleLarge)),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  decoration: BoxDecoration(color: const Color(0xffeaf2ff),
+                    borderRadius: BorderRadius.circular(30)),
+                  child: Text('$filteredCount found',
+                    style: const TextStyle(color: Color(0xff1d4ed8), fontWeight: FontWeight.w800)),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             LayoutBuilder(builder: (context, constraints) {
               final gap = 12.0;
               final cardWidth =
@@ -650,51 +703,70 @@ class _PublicJobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(job.title, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 3),
-              Text(job.organisation,
-                  style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 14,
-                runSpacing: 8,
-                children: [
-                  _CardDetail(Icons.location_on_outlined,
-                      job.location ?? 'Location not specified'),
+        elevation: 1,
+        child: InkWell(
+          onTap: onViewDetails,
+          borderRadius: BorderRadius.circular(18),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Container(
+                    width: 46, height: 46,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffedf4ff),
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    child: const Icon(Icons.account_balance_outlined,
+                      color: Color(0xff1d4ed8), size: 23),
+                  ),
+                  const SizedBox(width: 13),
+                  Expanded(child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(job.title, style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontSize: 16, height: 1.35)),
+                      const SizedBox(height: 4),
+                      Text(job.organisation,
+                        style: const TextStyle(color: Color(0xff64748b), fontWeight: FontWeight.w600)),
+                    ],
+                  )),
+                  const Icon(Icons.arrow_outward, color: Color(0xff94a3b8), size: 18),
+                ]),
+                const SizedBox(height: 17),
+                Wrap(spacing: 8, runSpacing: 8, children: [
+                  _CardDetail(Icons.location_on_outlined, job.location ?? 'Location not specified'),
                   _CardDetail(Icons.work_outline, job.experienceLevel),
                   if (job.salary?.isNotEmpty == true)
                     _CardDetail(Icons.payments_outlined, job.salary!),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                runSpacing: 8,
-                children: [
-                  Text('Posted ${postedDateLabel(job.createdAt)}'),
-                  Text('Closes ${job.closingDate}'),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: onViewDetails,
-                  icon: const Icon(Icons.arrow_forward, size: 16),
-                  label: const Text('View Details'),
-                ),
-              ),
-            ],
+                ]),
+                const SizedBox(height: 17),
+                const Divider(height: 1),
+                const SizedBox(height: 12),
+                Row(children: [
+                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    const Text('APPLICATION DEADLINE',
+                      style: TextStyle(fontSize: 9, letterSpacing: 1, color: Color(0xff94a3b8), fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 4),
+                    Text(job.closingDate, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xff334155))),
+                  ])),
+                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    const Text('POSTED', style: TextStyle(fontSize: 9, letterSpacing: 1, color: Color(0xff94a3b8), fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 4),
+                    Text(postedDateLabel(job.createdAt), style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xff64748b))),
+                  ]),
+                ]),
+                const SizedBox(height: 14),
+                Align(alignment: Alignment.centerRight,
+                  child: FilledButton.tonalIcon(
+                    onPressed: onViewDetails,
+                    icon: const Icon(Icons.arrow_forward, size: 16),
+                    label: const Text('View opportunity'),
+                  )),
+              ],
+            ),
           ),
         ),
       );
